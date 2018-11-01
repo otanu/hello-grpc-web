@@ -18,6 +18,7 @@ services:
   client:
     build: ./client
     volumes:
-      - ./client/:/client
+      - ./client/src:/client/src
+      - ./client/public:/client/public
     ports:
       - "3000:3000"
