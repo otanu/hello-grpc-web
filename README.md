@@ -6,8 +6,8 @@ DockerでgRPC-Web(TypeScript)で試すための環境です。
 
 ```sh
 $ git clone https://github.com/otanu/hello-grpc-web.git
-$ cd hello-grpc-web server proxy client
-$ docker-compose up -d
+$ cd hello-grpc-web
+$ docker-compose up -d server proxy client
 ```
 
 http://localhost:3000
