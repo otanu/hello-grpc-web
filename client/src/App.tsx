@@ -4,38 +4,14 @@ import "./App.css";
 import { HelloRequest } from "./helloworld/helloworld_pb";
 import { GreeterClient } from "./helloworld/HelloworldServiceClientPb";
 
-interface IState {
-  inputText: string;
-  message: string;
-}
+const initialState = {
+  inputText: "World",
+  message: ""
+};
+type State = Readonly<typeof initialState>;
 
-class App extends React.Component<{}, IState> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      inputText: "World",
-      message: ""
-    };
-    this.onClick = this.onClick.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
-
-  public onClick() {
-    const request = new HelloRequest();
-    request.setName(this.state.inputText);
-
-    const client = new GreeterClient("http://localhost:8080", {}, {});
-    client.sayHello(request, {}, (err, ret) => {
-      if (err || ret === null) {
-        throw err;
-      }
-      this.setState({ message: ret.getMessage() });
-    });
-  }
-
-  public onChange(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ inputText: e.target.value });
-  }
+class App extends React.Component<{}, State> {
+  public readonly state: State = initialState;
 
   public render() {
     return (
@@ -50,6 +26,23 @@ class App extends React.Component<{}, IState> {
       </div>
     );
   }
+
+  private onClick = () => {
+    const request = new HelloRequest();
+    request.setName(this.state.inputText);
+
+    const client = new GreeterClient("http://localhost:8080", {}, {});
+    client.sayHello(request, {}, (err, ret) => {
+      if (err || ret === null) {
+        throw err;
+      }
+      this.setState({ message: ret.getMessage() });
+    });
+  };
+
+  private onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ inputText: e.target.value });
+  };
 }
 
 export default App;
